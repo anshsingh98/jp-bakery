@@ -147,4 +147,18 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
-                
+
+// Mobile Flip Trigger Mechanics via Native Click/Touch Event Vector
+const productCards = document.querySelectorAll('.premium-product-card');
+productCards.forEach(card => {
+    card.addEventListener('click', function(e) {
+        if (window.innerWidth <= 1024) {
+            // Check if user is clicking the standard anchor link inside the card back face
+            if (e.target.classList.contains('product-order-link')) {
+                return; 
+            }
+            this.classList.toggle('flipped');
+        }
+    });
+});
+    
