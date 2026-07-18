@@ -18,9 +18,11 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("scroll", () => {
         const scrollTop = window.scrollY;
         const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const percentageScrolled = (scrollTop / documentHeight) * 100;
         
-        scrollProgress.style.width = `${percentageScrolled}%`;
+        if (documentHeight > 0) {
+            const percentageScrolled = (scrollTop / documentHeight) * 100;
+            scrollProgress.style.width = `${percentageScrolled}%`;
+        }
 
         if (scrollTop > 60) {
             boutiqueNav.classList.add("scrolled");
@@ -70,7 +72,49 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
-    // 5. Intersection Observer Architecture for Spatial Reveal Animations
+    // 5. FAQ Accordion Mechanics
+    const faqTriggers = document.querySelectorAll(".faq-trigger");
+    
+    faqTriggers.forEach(trigger => {
+        trigger.addEventListener("click", () => {
+            const parentItem = trigger.parentElement;
+            const bodyContent = trigger.nextElementSibling;
+            
+            // Close other items if opened
+            document.querySelectorAll(".faq-item").forEach(item => {
+                if (item !== parentItem && item.classList.contains("active")) {
+                    item.classList.remove("active");
+                    item.querySelector(".faq-body-content").style.maxHeight = null;
+                }
+            });
+            
+            parentItem.classList.toggle("active");
+            if (parentItem.classList.contains("active")) {
+                bodyContent.style.maxHeight = bodyContent.scrollHeight + "px";
+            } else {
+                bodyContent.style.maxHeight = null;
+            }
+        });
+    });
+
+    // 6. Contact Form WhatsApp Redirection Engine
+    const orderForm = document.getElementById("whatsapp-order-form");
+    if(orderForm) {
+        orderForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            
+            const clientName = document.getElementById("form-name").value.trim();
+            const clientPhone = document.getElementById("form-phone").value.trim();
+            const clientReqs = document.getElementById("form-desc").value.trim();
+            
+            const baseText = `Hello JP Biscuit Bakery,\n\nI want to make a request reservation:\n\n*Name:* ${clientName}\n*Phone:* ${clientPhone}\n*Requirements:* ${clientReqs}`;
+            const encodedText = encodeURIComponent(baseText);
+            
+            window.open(`https://wa.me/919712566555?text=${encodedText}`, '_blank');
+        });
+    }
+
+    // 7. Intersection Observer Architecture for Spatial Reveal Animations
     const reveals = document.querySelectorAll(".reveal-up");
     let counterTriggered = false;
 
@@ -94,7 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     reveals.forEach(element => revealObserver.observe(element));
 
-    // 6. Category Selection Pill Handler
+    // 8. Category Selection Pill Handler
     const categoryPills = document.querySelectorAll(".track-pill");
     categoryPills.forEach(pill => {
         pill.addEventListener("click", () => {
@@ -103,3 +147,4 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
+                
